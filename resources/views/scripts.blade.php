@@ -114,7 +114,7 @@
                     <!-- BEGIN: Account Menu -->
                     <div class="intro-x dropdown w-8 h-8 relative ml-auto">
                         <div class="dropdown-toggle w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in">
-                            <img alt="admin" src="/X_SQUARE/public/dist/images/profile-2.jpg">
+                            <img alt="admin" src="dist/images/profile-2.jpg">
                         </div>
                         <div class="dropdown-box mt-10 absolute w-56 top-0 right-0 z-20">
                             <div class="dropdown-box__content box bg-theme-1 dark:bg-dark-6 text-white">
