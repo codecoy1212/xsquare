@@ -221,7 +221,7 @@
 </div>
 
 
-<script src="/X_SQUARE/public/plugins/toastr/toastr.min.js"></script>
+<script src="{{asset('plugins/toastr/toastr.min.js')}}"></script>
 
   <script>
 
@@ -258,7 +258,7 @@
             // console.log(id1);
             $.ajax({
                 type:"POST",
-                url:'/X_SQUARE/public/categories/specific/'+cat_id+'/exercise/'+exe_id+'/questions/add',
+                url:'questions/add',
                 data: formData,
                 contentType: false,
                 processData: false,
@@ -286,7 +286,7 @@
             "serverSide": false,
             "responsive": true,
             "autoWidth": false,
-            "ajax": '/X_SQUARE/public/categories/specific/'+<?php echo $vbl1->id; ?>+'/exercise/'+<?php echo $vbl2->id; ?>+'/questions/show',
+            "ajax": 'questions/show',
             "columns": [
 
             { "data": "que_title" },
@@ -307,11 +307,11 @@
                 // console.log(id);
                 $.ajax({
                     type:"GET",
-                    url:'/X_SQUARE/public/categories/specific/'+<?php echo $vbl1->id; ?>+'/exercise/'+<?php echo $vbl2->id; ?>+'/questions/show/specific',
+                    url:'questions/show/specific',
                     data: { id:id10,},
                 }).done(function(data){
                 // console.log(data);
-                document.getElementById('s_img').innerHTML = '<img src="/X_SQUARE/public/storage/image_solutions/'+data.img_sol+'" alt="Solution not available.">';
+                document.getElementById('s_img').innerHTML = '<img src="'+data.img_sol+'" alt="Solution not available.">';
                 $("#s_img_modal").modal("show");
                 });
         });
@@ -321,7 +321,7 @@
                 // console.log(id);
                 $.ajax({
                     type:"GET",
-                    url:'/X_SQUARE/public/categories/specific/'+<?php echo $vbl1->id; ?>+'/exercise/'+<?php echo $vbl2->id; ?>+'/questions/show/specific',
+                    url:'questions/show/specific',
                     data: { id:id10,},
                 }).done(function(data){
                 // console.log(data);
@@ -337,7 +337,7 @@
 
             $.ajax({
                 type:"GET",
-                url:'/X_SQUARE/public/categories/specific/'+<?php echo $vbl1->id; ?>+'/exercise/'+<?php echo $vbl2->id; ?>+'/questions/show/specific/new',
+                url:'questions/show/specific/new',
                 data: { id:curr_id,},
             }).done(function(data){
             console.log(data);
@@ -368,7 +368,7 @@
 
             $.ajax({
                 type:"POST",
-                url:'/X_SQUARE/public/categories/specific/'+<?php echo $vbl1->id; ?>+'/exercise/'+<?php echo $vbl2->id; ?>+'/questions/update',
+                url:'questions/update',
                 data: formData,
                 contentType: false,
                 processData: false,
@@ -397,7 +397,7 @@
           if(confirm("Do you want to delete this Question ?")){
           $.ajax({
             type: 'DELETE',
-            url : '/X_SQUARE/public/categories/specific/'+<?php echo $vbl1->id; ?>+'/exercise/'+<?php echo $vbl2->id; ?>+'/questions/remove',
+            url : 'questions/remove',
             data: { id: curr_id,},
           }).done(function(data){
             console.log(data);

@@ -7,14 +7,14 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>X Square - @yield('up_title')</title>
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link rel="icon" type="image/x-icon" href="dist/logof.ico">
+        <link rel="icon" type="image/x-icon" href="{{asset('dist/logof.ico')}}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Midone admin is super flexible, powerful, clean & modern responsive tailwind admin template with unlimited possibilities.">
         <meta name="keywords" content="admin template, Midone admin template, dashboard template, flat admin template, responsive admin template, web app">
         <meta name="author" content="LEFT4CODE">
           <!-- BEGIN: CSS Assets-->
-        <link rel="stylesheet" href="dist/css/app.css" />
-        <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+        <link rel="stylesheet" href="{{asset('dist/css/app.css')}}" />
+        <link rel="stylesheet" href="{{asset('plugins/toastr/toastr.min.css')}}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
@@ -114,7 +114,7 @@
                     <!-- BEGIN: Account Menu -->
                     <div class="intro-x dropdown w-8 h-8 relative ml-auto">
                         <div class="dropdown-toggle w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in">
-                            <img alt="admin" src="dist/images/profile-2.jpg">
+                            <img alt="admin" src="{{asset('dist/images/profile-2.jpg')}}">
                         </div>
                         <div class="dropdown-box mt-10 absolute w-56 top-0 right-0 z-20">
                             <div class="dropdown-box__content box bg-theme-1 dark:bg-dark-6 text-white">
@@ -139,7 +139,7 @@
             </div>
             <!-- END: Content -->
         </div>
-        <script src="dist/js/app.js"></script>
+        <script src="{{asset('dist/js/app.js')}}"></script>
         <!-- END: JS Assets-->
     </body>
 </html>

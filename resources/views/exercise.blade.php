@@ -81,7 +81,7 @@
         </div>
     </div> --}}
 
-    <script src="/X_SQUARE/public/plugins/toastr/toastr.min.js"></script>
+    <script src="plugins/toastr/toastr.min.js"></script>
 
       <script>
 
@@ -103,7 +103,7 @@
                 event.preventDefault();
                 $.ajax({
                     type:"POST",
-                    url:"/X_SQUARE/public/categories/add",
+                    url:"categories/add",
                     data: $("#add_cat_form").serialize(),
                     success: function(response){
                         console.log(response);
@@ -132,7 +132,7 @@
                 $("#cat_list").empty();
                 $.ajax({
                     type:"GET",
-                    url:'/X_SQUARE/public/categories/show',
+                    url:'categories/show',
                 }).done(function(data){
                     // console.log(data[0].cat_name)
                 // console.log(data.length);

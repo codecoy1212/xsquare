@@ -153,6 +153,7 @@ class AnswerController extends Controller
         // echo $request->id;
 
         $vbl = Answer::where('question_id',$request->id)->first();
+        $vbl->img_sol=asset('storage/app/public/image_solutions/'.$vbl->img_sol);
         return $vbl;
     }
 

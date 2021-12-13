@@ -55,7 +55,7 @@ class ExerciseController extends Controller
 
         return datatables()->of($vbl)->addColumn('exercise_link', function ($row) {
 
-            $btn = '<a href="/X_SQUARE/public/categories/specific/'. $row['category_id'] .'/exercise/'. $row['id'] .'/questions" class="button text-white bg-theme-11 shadow-md mr-2">'. $row['exe_name'].'</a>';
+            $btn = '<a href="'. $row['category_id'] .'/exercise/'. $row['id'] .'/questions" class="button text-white bg-theme-11 shadow-md mr-2">'. $row['exe_name'].'</a>';
             return $btn;
 
         })->addColumn('actions', function ($row) {

@@ -93,7 +93,7 @@
     </div>
 </div>
 
-<script src="/X_SQUARE/public/plugins/toastr/toastr.min.js"></script>
+<script src="{{asset('plugins/toastr/toastr.min.js')}}"></script>
 
   <script>
 
@@ -118,7 +118,7 @@
             console.log(id1);
             $.ajax({
                 type:"POST",
-                url:'/X_SQUARE/public/categories/specific/'+id1+'/exercises/add',
+                url:''+id1+'/exercises/add',
                 data: $("#add_exe_form").serialize(),
                 success: function(response){
                     // console.log(response);
@@ -144,7 +144,7 @@
             "serverSide": false,
             "responsive": true,
             "autoWidth": false,
-            "ajax": '/X_SQUARE/public/categories/specific/'+<?php echo $vbl->id; ?>+'/exercises/show',
+            "ajax": ''+<?php echo $vbl->id; ?>+'/exercises/show',
             "columns": [
 
             { "data": "id" },
@@ -159,7 +159,7 @@
             // console.log(curr_id);
             $.ajax({
                 type:"GET",
-                url:'/X_SQUARE/public/categories/specific/'+<?php echo $vbl->id; ?>+'/exercises/show/specific',
+                url:''+<?php echo $vbl->id; ?>+'/exercises/show/specific',
                 data: { id:curr_id,},
             }).done(function(data){
             // console.log(data);
@@ -178,7 +178,7 @@
 
             $.ajax({
                 type: 'PUT',
-                url: '/X_SQUARE/public/categories/specific/'+<?php echo $vbl->id; ?>+'/exercises/update',
+                url: ''+<?php echo $vbl->id; ?>+'/exercises/update',
                 data: $('#edit_exe_form').serialize(),
               success: function (response){
                 console.log(response);
@@ -206,7 +206,7 @@
           if(confirm("Do you want to delete this Exercise ?")){
           $.ajax({
             type: 'DELETE',
-            url : '/X_SQUARE/public/categories/specific/'+<?php echo $vbl->id; ?>+'/exercises/remove',
+            url : ''+<?php echo $vbl->id; ?>+'/exercises/remove',
             data: { id: curr_id,},
           }).done(function(data){
             console.log(data);
