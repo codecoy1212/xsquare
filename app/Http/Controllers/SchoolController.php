@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\School;
+use App\Models\Student;
 use Illuminate\Http\Client\ResponseSequence;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -94,6 +95,10 @@ class SchoolController extends Controller
     public function del_school(Request $request)
     {
         // return $request->id;
+        $vbl = Student::where('school_id',$request->id)->get();
+        foreach ($vbl as $value) {
+            $value->delete();
+        }
         $vbl = School::find($request->id);
         $vbl->delete();
     }
