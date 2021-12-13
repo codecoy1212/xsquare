@@ -20,12 +20,12 @@
 </div>
 <!-- BEGIN: Datatable -->
 <div class="intro-y datatable-wrapper box p-5 mt-5">
-    <table class="table table-report table-report--bordered display datatable w-full">
+    <table id="students_table" class="table table-report table-report--bordered display w-full">
         <thead>
             <tr>
                 <th class="border-b-2 whitespace-no-wrap">ID</th>
 
-                <th class="border-b-2 whitespace-no-wrap">Picture</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Picture</th>
 
                 <th class="border-b-2 whitespace-no-wrap">Name</th>
 
@@ -33,7 +33,7 @@
 
                 <th class="border-b-2 whitespace-no-wrap">School</th>
 
-                <th class="border-b-2 text-center whitespace-no-wrap">Actions</th>
+                <th class="border-b-2 whitespace-no-wrap">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -42,6 +42,60 @@
     </table>
 </div>
 <!-- END: Datatable -->
+
+<script src="{{asset('plugins/toastr/toastr.min.js')}}"></script>
+
+
+<script>
+
+    $(document).ready(function(){
+
+        $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
+
+        $('#students_table').DataTable({
+            "processing": false,
+            "serverSide": false,
+            "responsive": true,
+            "autoWidth": false,
+            "ajax": "students/show",
+            "columns": [
+
+            { "data": "id" },
+            { "data": "student_pic" },
+            { "data": "stu_name" },
+            { "data": "stu_email" },
+            { "data": "school_name" },
+            { "data": "actions" },
+
+        ]
+        });
+
+        $(document).on("click", ".remove_stu", function(e){
+          var id2 = $(this).val();
+        //   console.log(id);
+          if(confirm("Do you want to delete this School ?")){
+          $.ajax({
+            type: 'DELETE',
+            url : 'students/remove',
+            data: { id: id2,},
+          }).done(function(data){
+            console.log(data);
+            toastr.success("Student Removed.");
+            // alert("School Deleted");
+            var table =  $('#students_table').DataTable();
+            table.ajax.reload();
+          });
+          }
+        });
+
+    });
+
+</script>
+
 
 @endsection()
 

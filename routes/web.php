@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    echo'<a href="http://localhost/X_SQUARE/public/dashboard"><button>Click Me</button></a>';
+    echo'<a href="dashboard"><button>Click Me</button></a>';
 });
 
 Route::get('/dashboard',[DashboardController::class,'index'])->name('dash');
@@ -57,3 +57,5 @@ Route::get('/categories/specific/{id1}/exercise/{id2}/questions/show/specific',[
 Route::post('/categories/specific/{id1}/exercise/{id2}/questions/update',[AnswerController::class,'update_question']);
 Route::get('/categories/specific/{id1}/exercise/{id2}/questions/show/specific/new',[AnswerController::class,'show_question_det']);
 
+Route::get('/students/show',[StudentController::class,'show_students']);
+Route::delete('/students/remove',[StudentController::class,'del_student']);
