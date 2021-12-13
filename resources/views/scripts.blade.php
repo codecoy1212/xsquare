@@ -139,7 +139,7 @@
             </div>
             <!-- END: Content -->
         </div>
-        <script src="/X_SQUARE/public/dist/js/app.js"></script>
+        <script src="dist/js/app.js"></script>
         <!-- END: JS Assets-->
     </body>
 </html>
