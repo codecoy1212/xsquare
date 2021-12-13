@@ -13,8 +13,8 @@
         <meta name="keywords" content="admin template, Midone admin template, dashboard template, flat admin template, responsive admin template, web app">
         <meta name="author" content="LEFT4CODE">
           <!-- BEGIN: CSS Assets-->
-        <link rel="stylesheet" href="/X_SQUARE/public/dist/css/app.css" />
-        <link rel="stylesheet" href="/X_SQUARE/public/plugins/toastr/toastr.min.css">
+        <link rel="stylesheet" href="dist/css/app.css" />
+        <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
