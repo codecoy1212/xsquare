@@ -166,7 +166,7 @@
             "serverSide": false,
             "responsive": true,
             "autoWidth": false,
-            "ajax": "/X_SQUARE/public/schools/show",
+            "ajax": "schools/show",
             "columns": [
 
             { "data": "id" },
@@ -183,7 +183,7 @@
             // console.log(id2);
             $.ajax({
                 type:"GET",
-                url:'/X_SQUARE/public/schools/show/specific/',
+                url:'schools/show/specific/',
                 data: { id: id2,},
             }).done(function(data){
             // console.log(data);
@@ -203,7 +203,7 @@
 
             $.ajax({
                 type: 'PUT',
-                url: '/X_SQUARE/public/schools/update/',
+                url: 'schools/update/',
                 data: $('#edit_school_form').serialize(),
               success: function (response){
                 // console.log(response);
@@ -231,7 +231,7 @@
           if(confirm("Do you want to delete this School ?")){
           $.ajax({
             type: 'DELETE',
-            url : '/X_SQUARE/public/schools/remove',
+            url : 'schools/remove',
             data: { id: id2,},
           }).done(function(data){
             console.log(data);
