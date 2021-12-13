@@ -142,7 +142,7 @@
                 for (let i = 0; i < data.length; i++) {
                     // console.log();
                     $("#cat_list").append(
-                        `<a class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y" href="specific/`+data[i].id+`">
+                        `<a class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y" href="categories/specific/`+data[i].id+`">
                             <div class="report-box zoom-in">
                                 <div class="box p-5">
                                     <div class="text-3xl font-bold leading-8 mt-4 mb-4">`+data[i].cat_name+`</div>
