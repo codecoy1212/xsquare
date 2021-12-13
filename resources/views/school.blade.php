@@ -108,7 +108,7 @@
     </div>
 </div>
 
-<script src="/X_SQUARE/public/plugins/toastr/toastr.min.js"></script>
+<script src="plugins/toastr/toastr.min.js"></script>
 
   <script>
 
