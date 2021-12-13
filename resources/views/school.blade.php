@@ -140,7 +140,7 @@
             event.preventDefault();
             $.ajax({
                 type:"POST",
-                url:"/X_SQUARE/public/schools/add",
+                url:"schools/add",
                 data: $("#add_school_form").serialize(),
                 success: function(response){
                     // console.log(response);
