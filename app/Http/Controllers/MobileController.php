@@ -159,9 +159,18 @@ class MobileController extends Controller
     }
 
     public function profile(request $request){
+
         $vbl = Student::find($request->id);
-        $str['status']=true;
-            $str['message']="STUDENT PROFILE";
+        if($vbl == "")
+        {
+            $str['status']=false;
+            $str['message']="STUDENT PROFILE NOT FOUND";
+            return $str;
+        }
+        else
+
+            $str['status']=true;
+            $str['message']="STUDENT PROFILE FOUND";
             $str['data']=$vbl;
             return $str;
     }
@@ -286,7 +295,7 @@ class MobileController extends Controller
                 $str['status']=true;
                 $str['message']="ALL EXERCISES SHOWN";
                 $str['data']['exercise']=$vbl1;
-                $str['data']['exercises']=$vbl2;
+                $str['data']['questions']=$vbl2;
                 return $str;
             }
         }
