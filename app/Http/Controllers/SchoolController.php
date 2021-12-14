@@ -13,12 +13,19 @@ class SchoolController extends Controller
 {
     public function index()
     {
-        return view('school');
+        if(session()->get('s_uname'))
+        {
+            return view('school');
+        }
+        else
+            return redirect('login');
     }
 
     public function add_school(Request $request)
     {
-        // return request();
+        if(session()->get('s_uname'))
+        {
+            // return request();
         // return "Hello from controller.";
         $validator = Validator::make($request->all(),[
             'school_name'=> 'required|max:40|min:10',
@@ -42,11 +49,16 @@ class SchoolController extends Controller
             $vbl->school_code = $request->school_code;
             $vbl->save();
         }
+        }
+        else
+            return redirect('login');
     }
 
     public function show_schools()
     {
-        // return $vbl = School::all();
+        if(session()->get('s_uname'))
+        {
+            // return $vbl = School::all();
         $vbl = School::all();
 
         return datatables()->of($vbl)->addColumn('actions', function ($row) {
@@ -56,18 +68,28 @@ class SchoolController extends Controller
             return $btn;
 
         })->rawColumns(['actions'])->make(true);
+        }
+        else
+            return redirect('login');
     }
 
     public function show_school(Request $request)
     {
-        // return $request;
+        if(session()->get('s_uname'))
+        {
+            // return $request;
         $vbl = School::find($request->id);
         return $vbl;
+        }
+        else
+            return redirect('login');
     }
 
     public function update_school(Request $request)
     {
-        // return $request;
+        if(session()->get('s_uname'))
+        {
+            // return $request;
         $validator = Validator::make($request->all(),[
             'school_name'=> 'required|max:40|min:10',
             'school_code' => 'required|digits:4|numeric',
@@ -90,16 +112,24 @@ class SchoolController extends Controller
             $vbl->school_code = $request->school_code;
             $vbl->update();
         }
+        }
+        else
+            return redirect('login');
     }
 
     public function del_school(Request $request)
     {
-        // return $request->id;
+        if(session()->get('s_uname'))
+        {
+            // return $request->id;
         $vbl = Student::where('school_id',$request->id)->get();
         foreach ($vbl as $value) {
             $value->delete();
         }
         $vbl = School::find($request->id);
         $vbl->delete();
+        }
+        else
+            return redirect('login');
     }
 }

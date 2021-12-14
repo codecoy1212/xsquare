@@ -13,19 +13,31 @@ class ExerciseController extends Controller
 {
     public function index()
     {
-        return view('exercise');
+        if(session()->get('s_uname'))
+        {
+            return view('exercise');
+        }
+        else
+            return redirect('login');
     }
 
     public function specific($id)
     {
-        // return $id;
+        if(session()->get('s_uname'))
+        {
+            // return $id;
         $vbl = Category::find($id);
         return view('exercise.specific',compact('vbl'));
+        }
+        else
+            return redirect('login');
     }
 
     public function add_exercise($cat_id, Request $request)
     {
-        // return $id;
+        if(session()->get('s_uname'))
+        {
+            // return $id;
         // return "Hello from controller.";
         $validator = Validator::make($request->all(),[
             'exe_name'=> 'required|max:30|min:5',
@@ -45,11 +57,16 @@ class ExerciseController extends Controller
             $vbl->category_id = $cat_id;
             $vbl->save();
         }
+        }
+        else
+            return redirect('login');
     }
 
     public function show_exercises($cat_id)
     {
-        // return $cat_id;
+        if(session()->get('s_uname'))
+        {
+            // return $cat_id;
         // return $vbl = School::all();
         $vbl = Exercise::where('category_id',$cat_id);
 
@@ -66,21 +83,28 @@ class ExerciseController extends Controller
 
         //below when true it makes the simple data html things
         })->rawColumns(['exercise_link', 'actions'])->make(true);
-
-
-
+        }
+        else
+            return redirect('login');
     }
 
     public function show_exercise(Request $request)
     {
-        // return $cat_id;
+        if(session()->get('s_uname'))
+        {
+            // return $cat_id;
         $vbl = Exercise::find($request->id);
         return $vbl;
+        }
+        else
+            return redirect('login');
     }
 
     public function update_exercise(Request $request)
     {
-        // return $request;
+        if(session()->get('s_uname'))
+        {
+            // return $request;
         $validator = Validator::make($request->all(),[
             'exe_name'=> 'required|max:30|min:5',
         ],[
@@ -98,11 +122,16 @@ class ExerciseController extends Controller
             $vbl->exe_name = $request->exe_name;
             $vbl->update();
         }
+        }
+        else
+            return redirect('login');
     }
 
     public function del_exercise(Request $request)
     {
-        // return $request->id;
+        if(session()->get('s_uname'))
+        {
+            // return $request->id;
 
         $vbl = Question::where('exercise_id',$request->id)->get();
         foreach ($vbl as $value1) {
@@ -115,5 +144,8 @@ class ExerciseController extends Controller
 
         $vbl = Exercise::find($request->id);
         $vbl->delete();
+        }
+        else
+            return redirect('login');
     }
 }

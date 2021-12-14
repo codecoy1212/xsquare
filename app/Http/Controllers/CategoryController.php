@@ -10,7 +10,9 @@ class CategoryController extends Controller
 {
     public function add_category(Request $request)
     {
-        // return request();
+        if(session()->get('s_uname'))
+        {
+            // return request();
         // return "Hello from controller.";
         $validator = Validator::make($request->all(),[
             'cat_name'=> 'required|max:30|min:5',
@@ -29,12 +31,20 @@ class CategoryController extends Controller
             $vbl->cat_name = $request->cat_name;
             $vbl->save();
         }
+        }
+        else
+            return redirect('login');
     }
 
     public function show_categories()
     {
-        $vbl = Category::all();
-        return $vbl;
+        if(session()->get('s_uname'))
+        {
+            $vbl = Category::all();
+            return $vbl;
+        }
+        else
+            return redirect('login');
     }
 
     // public function show_category(Request $request)

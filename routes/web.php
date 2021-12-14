@@ -4,6 +4,7 @@ use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExerciseController;
+use App\Http\Controllers\LoginOutController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
@@ -59,3 +60,7 @@ Route::get('/categories/specific/{id1}/exercise/{id2}/questions/show/specific/ne
 
 Route::get('/students/show',[StudentController::class,'show_students']);
 Route::delete('/students/remove',[StudentController::class,'del_student']);
+
+Route::get('/login',[LoginOutController::class,'index']);
+Route::post('/login',[LoginOutController::class,'loggingIn'])->name('log');
+Route::get('/logout',[LoginOutController::class,'logged_out'])->name('logo');

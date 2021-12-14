@@ -9,10 +9,17 @@
         <meta name="keywords" content="admin template, Midone admin template, dashboard template, flat admin template, responsive admin template, web app">
         <meta name="author" content="LEFT4CODE">
         <title>X Square - Login</title>
-        <link rel="icon" type="image/x-icon" href="/X_SQUARE/public/dist/logof.ico">
+        <link rel="icon" type="image/x-icon" href="{{asset('dist/logof.ico')}}">
         <!-- BEGIN: CSS Assets-->
-        <link rel="stylesheet" href="/X_SQUARE/public/dist/css/app.css" />
+        <link rel="stylesheet" href="{{asset('dist/css/app.css')}}" />
         <!-- END: CSS Assets-->
+        <link rel="stylesheet" href="{{asset('plugins/toastr/toastr.min.css')}}">
+
+        <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
+
+        <script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+        <script src="{{asset('plugins/toastr/toastr.min.js')}}"></script>
     </head>
     <!-- END: Head -->
     <body class="login">
@@ -25,7 +32,7 @@
 
                     </a>
                     <div class="my-auto">
-                         <img alt="NLK ADMIN" class="-intro-x w-1/2 -mt-16" src="/X_SQUARE/public/dist/images/icon.png">
+                         <img alt="NLK ADMIN" class="-intro-x w-1/2 -mt-16" src="{{asset('dist/images/icon.png')}}">
                         <div class="-intro-x text-white font-medium text-4xl leading-tight mt-10">
                             A few more clicks to
                             <br>
@@ -37,7 +44,8 @@
                 <!-- END: Login Info -->
                 <!-- BEGIN: Login Form -->
                 <div class="h-screen xl:h-auto flex py-5 xl:py-0 my-10 xl:my-0">
-                    <form class="my-auto mx-auto xl:ml-20 bg-white xl:bg-transparent px-5 sm:px-8 py-8 xl:p-0 rounded-md shadow-md xl:shadow-none w-full sm:w-3/4 lg:w-2/4 xl:w-auto" action="" method="post">
+                    <form class="my-auto mx-auto xl:ml-20 bg-white xl:bg-transparent px-5 sm:px-8 py-8 xl:p-0 rounded-md shadow-md xl:shadow-none w-full sm:w-3/4 lg:w-2/4 xl:w-auto" action="{{ route('log') }}" method="post">
+                        @csrf
                         <h2 class="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left">
                             Sign In
                         </h2>
@@ -52,12 +60,17 @@
 
                         </div>
                         <div class="intro-x mt-5 xl:mt-8 text-center xl:text-left">
-                            <button name="login_user" class="button button--lg w-full xl:w-32 text-white bg-theme-1 xl:mr-3">Login</button>
+                            <button class="button button--lg w-full xl:w-32 text-white bg-theme-1 xl:mr-3">Login</button>
 
                         </div>
                         <div class="intro-x mt-10 xl:mt-24 text-gray-700 dark:text-gray-600 text-center xl:text-left">
 
                         </div>
+                        @if ($errors->any())
+                            @foreach ($errors->all() as $error)
+                            <script>toastr.error("{!! $error !!}");</script>
+                            @endforeach
+                        @endif
                     </form>
                 </div>
                 <!-- END: Login Form -->
@@ -67,7 +80,7 @@
 
         <!-- END: Dark Mode Switcher-->
         <!-- BEGIN: JS Assets-->
-        <script src="/X_SQUARE/public/dist/js/app.js"></script>
+        <script src="{{asset('dist/js/app.js')}}"></script>
         <!-- END: JS Assets-->
     </body>
 </html>
