@@ -28,6 +28,7 @@
                 <th class="border-b-2 whitespace-no-wrap">School Name</th>
 
                 <th class="border-b-2 whitespace-no-wrap">School Code</th>
+                <th class="border-b-2 whitespace-no-wrap">Total Students</th>
 
                 <th class="border-b-2 whitespace-no-wrap">Actions</th>
             </tr>
@@ -172,6 +173,7 @@
             { "data": "id" },
             { "data": "school_name" },
             { "data": "school_code" },
+            { "data": "tot_user" },
             { "data": "actions" },
 
         ]
