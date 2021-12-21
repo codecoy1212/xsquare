@@ -59,11 +59,11 @@ class SchoolController extends Controller
     {
         if(session()->get('s_uname'))
         {
-            // return $vbl = School::all();
-        $vbl = School::leftjoin('students','students.school_id','schools.id')
-        ->select(array('schools.*', DB::raw('COUNT(students.school_id) as tot_user')))
-        ->groupBy('schools.id')
-        ->get();
+        $vbl = School::all();
+        // $vbl = School::leftjoin('students','students.school_id','schools.id')
+        // ->select(array('schools.*', DB::raw('COUNT(students.school_id) as tot_user')))
+        // ->groupBy('schools.id')
+        // ->get();
         return datatables()->of($vbl)->addColumn('actions', function ($row) {
 
             $btn = '<button class="update_sch button text-white bg-theme-3 shadow-md mr-2" value="' . $row['id'] . '">Update</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
