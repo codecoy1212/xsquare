@@ -20,17 +20,33 @@ class MobileController extends Controller
         // return $request->all();
 
         $validator = Validator::make($request->all(),[
-            'f_name'=> 'required|min:8',
+            'f_name'=> 'required|min:3',
             'f_email' => 'required|email:rfc,dns|unique:students,stu_email',
             'f_sch_id' => 'required|digits:4|numeric|exists:schools,school_code',
-            'f_pass' => 'required|min:8',
-            'f_c_pass' => 'required|same:f_pass',
+            'f_pass' => 'required|min:6',
             'f_u_pic' => 'mimes:jpeg,bmp,png,jpg|max:5120',
-        ]);
+        ], [
+            'f_name.required' => 'Please enter your Name.',
+            'f_name.min' => 'Name must be at least 3 characters.',
+            'f_email.required' => 'Please enter your Email.',
+            'f_sch_id.required' => 'Please enter your School Code.',
+            'f_sch_id.digits' => 'School Code Must be 4 Digits.',
+            'f_sch_id.numeric' => 'School Code Must Numeric.',
+            'f_sch_id.exists' => 'School Code Not Exist.',
+            'f_pass.required' => 'Please enter your Password.',
+            'f_pass.min' => 'Password Not Less Than 6 Digits.',
+            'f_u_pic.mimes' => 'Picture Is Not Valid.',
+            'f_email.unique' => 'Email is Already registered.',
+            'f_email.email' => 'Email is invalid.',
+            ]);
         if ($validator->fails())
         {
             $str['status']=false;
-            $str['data'] = $validator->errors()->toArray();
+            $error=$validator->errors()->toArray();
+            foreach($error as $x => $x_value){
+                $err[]=$x_value[0];
+            }
+             $str['message'] =$err['0'];
             return $str;
         }
         else
@@ -96,7 +112,12 @@ class MobileController extends Controller
                 if ($validator->fails())
                 {
                     $str['status']=false;
-                    $str['data'] = $validator->errors()->toArray();
+                    
+                     $error=$validator->errors()->toArray();
+            foreach($error as $x => $x_value){
+                $err[]=$x_value[0];
+            }
+             $str['message'] =$err['0'];
                     return $str;
                 }
             }
@@ -117,7 +138,12 @@ class MobileController extends Controller
             if ($validator->fails())
             {
                 $str['status']=false;
-                $str['data'] = $validator->errors()->toArray();
+                $error=$validator->errors()->toArray();
+            foreach($error as $x => $x_value){
+                $err[]=$x_value[0];
+            }
+             $str['message'] =$err['0'];
+                // $str['data'] = $validator->errors()->toArray();
                 return $str;
             }
         }
@@ -127,13 +153,22 @@ class MobileController extends Controller
     {
         $validator = Validator::make($request->all(),[
             'u_id'=> 'required|numeric|exists:students,id',
-            'f_name'=> 'required|min:8',
-            'f_u_pic' => 'mimes:jpeg,bmp,png,jpg|max:5120',
-        ]);
+            'f_name'=> 'required|min:3',
+           
+        ], [
+            'u_id.required' => 'Empty Fields.',
+           'f_name.required' => 'Please enter your Name.',
+            'f_name.min' => 'Name must be at least 3 characters.',
+            ]);
         if ($validator->fails())
         {
             $str['status']=false;
-            $str['data'] = $validator->errors()->toArray();
+            $error=$validator->errors()->toArray();
+            foreach($error as $x => $x_value){
+                $err[]=$x_value[0];
+            }
+             $str['message'] =$err['0'];
+            // $str['data'] = $validator->errors()->toArray();
             return $str;
         }
         else
@@ -170,7 +205,7 @@ class MobileController extends Controller
         else
 
             $str['status']=true;
-            $str['message']="STUDENT PROFILE FOUND";
+            $str['message']="STUDENT PROFILE ";
             $str['data']=$vbl;
             return $str;
     }
@@ -179,25 +214,45 @@ class MobileController extends Controller
     {
         $validator = Validator::make($request->all(),[
             'u_id'=> 'required|numeric|exists:students,id',
-            'f_pass' => 'required|min:8',
-            'f_c_pass' => 'required|same:f_pass',
-        ]);
+            'o_pass' => 'required|min:6',
+            'n_pass' => 'required|min:6',
+        ],[
+            'u_id.required'=>'Empty Fields',
+            'u_id.exists'=>'User Not Found',
+            'o_pass.required'=>'Enter Your Old Password',
+            'o_pass.min'=>'Password Not Less Than 6 Digits',
+             'n_pass.required'=>'Enter Your New Password',
+            'n_pass.min'=>'Password Not Less Than 6 Digits',
+            ]);
         if ($validator->fails())
         {
             $str['status']=false;
-            $str['data'] = $validator->errors()->toArray();
+            $error=$validator->errors()->toArray();
+            foreach($error as $x => $x_value){
+                $err[]=$x_value[0];
+            }
+             $str['message'] =$err['0'];
+            // $str['data'] = $validator->errors()->toArray();
             return $str;
         }
         else
         {
             $var = Student::find($request->u_id);
-            $var->stu_pass = $request->f_pass;
+            if($request->o_pass == $var->stu_pass)             
+            {
+            $var->stu_pass = $request->n_pass;
             $var->update();
 
             $str['status']=true;
             $str['message']="PASSWORD UPDATED";
             $str['data']=$var;
             return $str;
+            }else{
+                  $str['status']=false;
+            $str['message']="Old Password Is Incorrect!";
+            return $str;
+            }
+            
 
         }
     }
