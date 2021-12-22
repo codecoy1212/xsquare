@@ -7,7 +7,6 @@ use App\Models\Student;
 use Illuminate\Http\Client\ResponseSequence;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class SchoolController extends Controller
@@ -59,11 +58,9 @@ class SchoolController extends Controller
     {
         if(session()->get('s_uname'))
         {
+            // return $vbl = School::all();
         $vbl = School::all();
-        // $vbl = School::leftjoin('students','students.school_id','schools.id')
-        // ->select(array('schools.*', DB::raw('COUNT(students.school_id) as tot_user')))
-        // ->groupBy('schools.id')
-        // ->get();
+
         return datatables()->of($vbl)->addColumn('actions', function ($row) {
 
             $btn = '<button class="update_sch button text-white bg-theme-3 shadow-md mr-2" value="' . $row['id'] . '">Update</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';

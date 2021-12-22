@@ -296,6 +296,7 @@ class MobileController extends Controller
         // return $request;
 
         $vbl1 = Category::find($request->cat_id);
+        $vbl00 = Student::find($request->user_id);
         $vbl2 = Exercise::where('category_id',$request->cat_id)->get();
 
         // $exe_status = false;
@@ -327,9 +328,9 @@ class MobileController extends Controller
 
         // return $vbl4;
 
-        if($vbl1 == ""){
+        if($vbl1 == "" || $vbl00 == ""){
             $str['status']=false;
-            $str['message']="CATEGORY NOT FOUND";
+            $str['message']="CATEGORY OR USER DOES NOT FOUND";
             return $str;
         }
         else
@@ -397,13 +398,13 @@ class MobileController extends Controller
             {
                 $str['status']=true;
                 $str['data']['exercise']=$vbl1;
-                $str['message']="NO EXERCISES TO SHOW";
+                $str['message']="NO QUESTIONS TO SHOW";
                 return $str;
             }
             else
             {
                 $str['status']=true;
-                $str['message']="ALL EXERCISES SHOWN";
+                $str['message']="ALL QUESTIONS SHOWN";
                 $str['data']['exercise']=$vbl1;
                 $str['data']['questions']=$vbl4;
                 return $str;
