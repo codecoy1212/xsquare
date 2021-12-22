@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Exercise;
+use App\Models\Given_Answer;
 use App\Models\School;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -112,7 +114,7 @@ class MobileController extends Controller
                 if ($validator->fails())
                 {
                     $str['status']=false;
-                    
+
                      $error=$validator->errors()->toArray();
             foreach($error as $x => $x_value){
                 $err[]=$x_value[0];
@@ -154,7 +156,7 @@ class MobileController extends Controller
         $validator = Validator::make($request->all(),[
             'u_id'=> 'required|numeric|exists:students,id',
             'f_name'=> 'required|min:3',
-           
+
         ], [
             'u_id.required' => 'Empty Fields.',
            'f_name.required' => 'Please enter your Name.',
@@ -238,7 +240,7 @@ class MobileController extends Controller
         else
         {
             $var = Student::find($request->u_id);
-            if($request->o_pass == $var->stu_pass)             
+            if($request->o_pass == $var->stu_pass)
             {
             $var->stu_pass = $request->n_pass;
             $var->update();
@@ -252,7 +254,7 @@ class MobileController extends Controller
             $str['message']="Old Password Is Incorrect!";
             return $str;
             }
-            
+
 
         }
     }
@@ -291,8 +293,39 @@ class MobileController extends Controller
         // $vbl = json_decode($vbl, true);
         // return $vbl;
 
-        $vbl1 = Category::find($request->id);
-        $vbl2 = Exercise::where('category_id',$request->id)->get();
+        // return $request;
+
+        $vbl1 = Category::find($request->cat_id);
+        $vbl2 = Exercise::where('category_id',$request->cat_id)->get();
+
+        // $exe_status = false;
+        $vbl4 = array();
+
+
+
+        foreach ($vbl2 as $value) {
+            $questions = DB::table('questions')->select(DB::raw('count(*) as tot_question'))
+            ->where('questions.exercise_id',$value->id)
+            ->first();
+
+            $ans = DB::table('given__answers')->select(DB::raw('count(*) as tot_question'))
+            ->join('questions','questions.id','given__answers.answer_id')
+            ->where('questions.exercise_id',$value->id)
+            ->where('given__answers.student_id',$request->user_id)->first();
+
+            // $value->tot=$questions->tot_question;
+            // $value->ans=$ans->tot_question;
+            // $vbl4[]=$value;
+           if($questions->tot_question==$ans->tot_question AND $questions->tot_question>0){
+            $value->exe_status=true;
+            $vbl4[]=$value;
+           }else{
+            $value->exe_status=false;
+            $vbl4[]=$value;
+           }
+        }
+
+        // return $vbl4;
 
         if($vbl1 == ""){
             $str['status']=false;
@@ -313,7 +346,7 @@ class MobileController extends Controller
                 $str['status']=true;
                 $str['message']="ALL EXERCISES SHOWN";
                 $str['data']['category']=$vbl1;
-                $str['data']['exercises']=$vbl2;
+                $str['data']['exercises']=$vbl4;
                 return $str;
             }
         }
@@ -321,24 +354,46 @@ class MobileController extends Controller
 
     public function get_que(Request $request)
     {
-        $vbl1 = Exercise::find($request->id);
+        $vbl1 = Exercise::find($request->exe_id);
 
-        $vbl2 = DB::table('questions')
-            ->where('questions.exercise_id',$request->id)
+        $vbl5 = Student::find($request->user_id);
+
+        $vbl3 = DB::table('questions')
+            ->where('questions.exercise_id',$request->exe_id)
             ->join('answers','answers.question_id','=','questions.id')
             ->select('questions.que_title','answers.*')
             ->get();
-        $vbl2 = json_decode($vbl2, true);
-        // return $vbl2;
+        // $vbl3 = json_decode($vbl2, true);
 
-        if($vbl1 == ""){
+        // return $vbl3;
+
+        $vbl4 = array();
+
+        foreach($vbl3 as $var){
+            $ans = DB::table('given__answers')
+            ->where('answer_id',$var->question_id)
+            ->where('student_id',$request->user_id)->first();
+            if($ans)
+            {
+                $var->ans_status=true;
+                array_push($vbl4,$var);
+            }else
+            {
+                $var->ans_status=false;
+                array_push($vbl4,$var);
+            }
+        }
+
+        // return $vbl4;
+
+        if($vbl1 == "" || $vbl5 == ""){
             $str['status']=false;
-            $str['message']="EXERCISE NOT FOUND";
+            $str['message']="EXERCISE OR USER NOT FOUND";
             return $str;
         }
         else
         {
-            if(count($vbl2) == 0)
+            if(count($vbl3) == 0)
             {
                 $str['status']=true;
                 $str['data']['exercise']=$vbl1;
@@ -350,7 +405,102 @@ class MobileController extends Controller
                 $str['status']=true;
                 $str['message']="ALL EXERCISES SHOWN";
                 $str['data']['exercise']=$vbl1;
-                $str['data']['questions']=$vbl2;
+                $str['data']['questions']=$vbl4;
+                return $str;
+            }
+        }
+    }
+
+    public function give_ans(Request $request)
+    {
+        // return $request;
+
+        $vbl1 = Student::find($request->user_id);
+        $vbl2 = Answer::find($request->que_id);
+
+        if(empty($vbl1) || empty($vbl2))
+        {
+            $str['status']=false;
+            $str['message']="STUDENT OR QUESTION ID DOES NOT EXIST";
+            return $str;
+        }
+        else
+        {
+            if($request->ans_no == null || $request->ans_no == "")
+            {
+                $str['status']=false;
+                $str['message']=" MCQ NOT GIVEN";
+                return $str;
+            }
+            else
+            {
+                if($request->ans_no == 1 || $request->ans_no == 2 || $request->ans_no == 3 || $request->ans_no == 4 )
+                {
+                    $vbl3 = new Given_Answer;
+                    $vbl3->student_id = $request->user_id;
+                    $vbl3->answer_id = $request->que_id;
+                    $vbl3->submitted_ans = $request->ans_no;
+                    $vbl3->status = true;
+                    $vbl3->save();
+
+
+                    $str['status']=true;
+                    $str['message']="GIVEN ANSWER OK";
+                    $str['data']=$vbl3;
+                    return $str;
+                }
+                else
+                {
+                    $str['status']=false;
+                    $str['message']="MCQ DOES NOT EXIST";
+                    return $str;
+                }
+            }
+        }
+
+    }
+
+    public function reset_stu(Request $request)
+    {
+        $vbl1 = Student::find($request->user_id);
+        $vbl2 = Exercise::find($request->exe_id);
+
+        $vbl3 = DB::table('questions')
+            ->where('questions.exercise_id',$request->exe_id)
+            ->join('answers','answers.question_id','=','questions.id')
+            ->join('given__answers','given__answers.answer_id','=','answers.id')
+            ->where('student_id',$request->user_id)
+            ->select('questions.que_title','given__answers.*')
+            ->get();
+        // $vbl3 = json_decode($vbl3, true);
+
+        //
+
+        if(empty($vbl1) || empty($vbl2))
+        {
+            $str['status']=false;
+            $str['message']="STUDENT OR EXERCISE DOES NOT EXIST";
+            return $str;
+        }
+        else
+        {
+            // return $vbl3;
+
+            if(count($vbl3) == 0)
+            {
+                $str['status']=true;
+                $str['message']="STUDENT ALREADY RESET";
+                return $str;
+            }
+            else
+            {
+                foreach ($vbl3 as $value) {
+                    $vbl10 = Given_Answer::find($value->id);
+                    $vbl10->delete();
+                }
+
+                $str['status']=true;
+                $str['message']="STUDENT RESET DONE";
                 return $str;
             }
         }
