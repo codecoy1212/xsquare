@@ -536,27 +536,52 @@ class MobileController extends Controller
 
     public function spec_que(Request $request)
     {
-        // return $request;
+        $vbl8 = Student::find($request->user_id);
+        $vbl9 = Question::find($request->que_id);
+
+        if(empty($vbl8))
+        {
+            $str['status']=false;
+            $str['message']="STUDENT DOES NOT EXIST";
+            return $str;
+        }
+
+        if(empty($vbl9))
+        {
+            $str['status']=false;
+            $str['message']="QUESTIONS DOES NOT EXIST";
+            return $str;
+        }
+
         $vbl = DB::table('questions')
             ->join('answers','answers.question_id','=','questions.id')
             ->where('questions.id',$request->que_id)
             ->select('questions.que_title','answers.*')
-            ->get();
+            ->first();
         // return $vbl;
 
-        if(count($vbl) == 0)
-        {
-            $str['status']=false;
-            $str['message']="QUESTIONS DO NOT EXIST";
-            return $str;
-        }
-        else
-        {
-            $str['status']=true;
-            $str['message']="SPECIFIC QUESTION SHOWN";
-            $str['data']=$vbl;
-            return $str;
+        $vbl4 = "";
 
+        $ans = DB::table('given__answers')
+        ->where('answer_id',$request->que_id)
+        ->where('student_id',$request->user_id)->first();
+        if($ans)
+        {
+            $vbl->ans_status=true;
+            $vbl4 = $vbl;
+        }else
+        {
+            $vbl->ans_status=false;
+            $vbl4 = $vbl;
         }
+
+        // return $vbl4;
+
+        $str['status']=true;
+        $str['message']="SPECIFIC QUESTION SHOWN";
+        $str['data']=$vbl4;
+        return $str;
+
+
     }
 }
