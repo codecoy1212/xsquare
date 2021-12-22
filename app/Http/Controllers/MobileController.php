@@ -6,6 +6,7 @@ use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Exercise;
 use App\Models\Given_Answer;
+use App\Models\Question;
 use App\Models\School;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -504,6 +505,58 @@ class MobileController extends Controller
                 $str['message']="STUDENT RESET DONE";
                 return $str;
             }
+        }
+    }
+
+    public function training()
+    {
+        $vbl = DB::table('questions')
+            ->join('answers','answers.question_id','=','questions.id')
+            ->select('questions.que_title','answers.*')
+            ->inRandomOrder()
+            ->get();
+
+        // return $vbl;
+
+        if(count($vbl) == 0)
+        {
+            $str['status']=false;
+            $str['message']="NO QUESTIONS EXIST";
+            return $str;
+        }
+        else
+        {
+            $str['status']=true;
+            $str['message']="RANDOM QUESTION SHOWN";
+            $str['data']=$vbl;
+            return $str;
+
+        }
+    }
+
+    public function spec_que(Request $request)
+    {
+        // return $request;
+        $vbl = DB::table('questions')
+            ->join('answers','answers.question_id','=','questions.id')
+            ->where('questions.id',$request->que_id)
+            ->select('questions.que_title','answers.*')
+            ->get();
+        // return $vbl;
+
+        if(count($vbl) == 0)
+        {
+            $str['status']=false;
+            $str['message']="QUESTIONS DO NOT EXIST";
+            return $str;
+        }
+        else
+        {
+            $str['status']=true;
+            $str['message']="SPECIFIC QUESTION SHOWN";
+            $str['data']=$vbl;
+            return $str;
+
         }
     }
 }

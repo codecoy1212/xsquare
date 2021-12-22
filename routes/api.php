@@ -30,3 +30,5 @@ Route::get('/mobile/get_exercises',[MobileController::class,'get_exe']);
 Route::get('/mobile/get_questions',[MobileController::class,'get_que']);
 Route::post('/mobile/give_answers',[MobileController::class,'give_ans']);
 Route::get('/mobile/reset_student',[MobileController::class,'reset_stu']);
+Route::get('/mobile/training',[MobileController::class,'training']);
+Route::get('/mobile/specific_question',[MobileController::class,'spec_que']);
