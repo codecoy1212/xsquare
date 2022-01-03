@@ -420,6 +420,18 @@ class MobileController extends Controller
         $vbl1 = Student::find($request->user_id);
         $vbl2 = Answer::find($request->que_id);
 
+        $vbl3 = DB::table('given__answers')
+        ->where('student_id','=',$request->user_id)
+        ->where('answer_id','=',$request->que_id)
+        ->first();
+
+        if($vbl3)
+        {
+            $str['status']=false;
+            $str['message']="QUESTION ALREADY ANSWERED";
+            return $str;
+        }
+
         if(empty($vbl1) || empty($vbl2))
         {
             $str['status']=false;

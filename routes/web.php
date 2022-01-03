@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    echo'<a href="dashboard"><button>Click Me</button></a>';
+    return redirect('login');
 });
 
 Route::get('/dashboard',[DashboardController::class,'index'])->name('dash');
