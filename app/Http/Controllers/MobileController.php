@@ -206,11 +206,12 @@ class MobileController extends Controller
             return $str;
         }
         else
-
+        {
             $str['status']=true;
             $str['message']="STUDENT PROFILE ";
             $str['data']=$vbl;
             return $str;
+        }
     }
 
     public function pass_reset(Request $request)
