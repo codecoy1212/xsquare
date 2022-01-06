@@ -29,7 +29,7 @@ class SchoolController extends Controller
         // return "Hello from controller.";
         $validator = Validator::make($request->all(),[
             'school_name'=> 'required|max:40|min:10',
-            'school_code' => 'required|digits:4|numeric',
+            'school_code' => 'required|digits:4|numeric|unique:schools,school_code',
         ],[
             'school_name.required' => 'School name is required.',
             'school_name.max' => 'School name must be within 40 characters.',
@@ -92,7 +92,7 @@ class SchoolController extends Controller
             // return $request;
         $validator = Validator::make($request->all(),[
             'school_name'=> 'required|max:40|min:10',
-            'school_code' => 'required|digits:4|numeric',
+            'school_code' => 'required|digits:4|numeric|unique:schools,school_code',
         ],[
             'school_name.required' => 'School name is required.',
             'school_name.max' => 'School name must be within 40 characters.',

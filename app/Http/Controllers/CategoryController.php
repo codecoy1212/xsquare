@@ -47,34 +47,34 @@ class CategoryController extends Controller
             return redirect('login');
     }
 
-    // public function show_category(Request $request)
-    // {
-    //     // return $request;
-    //     $vbl = Category::find($request->id);
-    //     return $vbl;
-    // }
+    public function show_category(Request $request)
+    {
+        // return $request;
+        $vbl = Category::find($request->id);
+        return $vbl;
+    }
 
-    // public function update_category(Request $request)
-    // {
-    //     // return $request;
-    //     $validator = Validator::make($request->all(),[
-    //         'cat_name'=> 'required|max:30|min:5',
-    //     ],[
-    //         'cat_name.required' => 'Category name is required.',
-    //         'cat_name.max' => 'Category name must be within 30 characters.',
-    //         'cat_name.min' => 'Category name must be of 5 characters.',
-    //     ]);
-    //     if ($validator->fails())
-    //     {
-    //         return response()->json($validator->errors()->toArray(),422);
-    //     }
-    //     else
-    //     {
-    //         $vbl = Category::find($request->id);
-    //         $vbl->cat_name = $request->cat_name;
-    //         $vbl->update();
-    //     }
-    // }
+    public function update_category(Request $request)
+    {
+        // return $request;
+        $validator = Validator::make($request->all(),[
+            'cat_name'=> 'required|max:30|min:5',
+        ],[
+            'cat_name.required' => 'Category name is required.',
+            'cat_name.max' => 'Category name must be within 30 characters.',
+            'cat_name.min' => 'Category name must be of 5 characters.',
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json($validator->errors()->toArray(),422);
+        }
+        else
+        {
+            $vbl = Category::find($request->id);
+            $vbl->cat_name = $request->cat_name;
+            $vbl->update();
+        }
+    }
 
     // public function del_category(Request $request)
     // {

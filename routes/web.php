@@ -42,8 +42,8 @@ Route::put('/schools/update',[SchoolController::class,'update_school']);
 Route::post('/categories/add',[CategoryController::class,'add_category']);
 Route::get('/categories/show',[CategoryController::class,'show_categories']);
 // Route::delete('/categories/remove',[CategoryController::class,'del_category']);
-// Route::get('/categories/show/specific',[CategoryController::class,'show_category']);
-// Route::put('/categories/update',[CategoryController::class,'update_category']);
+Route::get('/categories/show/specific',[CategoryController::class,'show_category']);
+Route::put('/categories/update',[CategoryController::class,'update_category']);
 
 Route::post('/categories/specific/{id}/exercises/add',[ExerciseController::class,'add_exercise']);
 Route::get('/categories/specific/{id}/exercises/show',[ExerciseController::class,'show_exercises']);

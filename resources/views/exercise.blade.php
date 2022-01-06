@@ -55,12 +55,12 @@
         </div>
     </div>
 
-    {{-- <div class="modal" id="edit_cat_modal">
+    <div class="modal" id="edit_cat_modal">
         <div class="modal__content">
             <div class="px-5 pb-0"><br>
                <div style="font-size:25px">Edit Category</div>
             </div>
-            <form id="edit_school_form">
+            <form id="edit_cat_form">
                 @csrf
                 <input type="hidden" id="update_val_id" name="id">
                 <div class="intro-y col-span-12 lg:col-span-8 p-5">
@@ -79,7 +79,7 @@
                 </div>
             </form>
         </div>
-    </div> --}}
+    </div>
 
     <script src="plugins/toastr/toastr.min.js"></script>
 
@@ -142,13 +142,14 @@
                 for (let i = 0; i < data.length; i++) {
                     // console.log();
                     $("#cat_list").append(
-                        `<a class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y" href="categories/specific/`+data[i].id+`">
+                        `<div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
                             <div class="report-box zoom-in">
-                                <div class="box p-5">
-                                    <div class="text-3xl font-bold leading-8 mt-4 mb-4">`+data[i].cat_name+`</div>
+                                <div class="box p-5 pb-10">
+                                    <button value="`+data[i].id+`" class="edit_cat" style="float:right">Edit</button><br>
+                                    <a href="categories/specific/`+data[i].id+`" class="text-3xl font-bold leading-8 mt-4 mb-4" style="text-align:left">`+data[i].cat_name+`</a>
                                 </div>
                             </div>
-                        </a>`
+                        </div>`
                     );
                 }
 
@@ -156,53 +157,53 @@
             }
 
 
-            // $(document).on("click",".update_sch",function(){
-            //     $("#update_subject_errors").empty();
-            //     var id2 = $(this).val();
-            //     // console.log(id2);
-            //     $.ajax({
-            //         type:"GET",
-            //         url:'/X_SQUARE/public/schools/show/specific/',
-            //         data: { id: id2,},
-            //     }).done(function(data){
-            //     // console.log(data);
-            //     $("#edit_school_id").val(data.school_name);
-            //     $("#edit_school_code").val(data.school_code);
-            //     $("#edit_school_done").val(id2);
-            //     $("#update_val_id").val(id2);
-            //     $("#edit_school_modal").modal("show");
-            //     });
-            // });
+            $(document).on("click",".edit_cat",function(){
+                $("#update_subject_errors").empty();
+                var id2 = $(this).val();
+                console.log(id2);
+                $.ajax({
+                    type:"GET",
+                    url:'categories/show/specific/',
+                    data: { id: id2,},
+                }).done(function(data){
+                console.log(data);
+                // $("#edit_school_id").val(data.school_name);
+                // $("#edit_school_code").val(data.school_code);
+                $("#edit_cat_id").val(data.cat_name);
+                $("#update_val_id").val(id2);
+                $("#edit_cat_modal").modal("show");
+                });
+            });
 
-            // $(document).on("submit", "#edit_school_form", function(e){
-            //     e.preventDefault();
-            //     $("#edit_school_errors").empty();
-            //     var id = $("#edit_school_done").val();
-            //     // console.log(id);
+            $(document).on("submit", "#edit_cat_form", function(e){
+                e.preventDefault();
+                $("#edit_school_errors").empty();
+                var id = $("#edit_cat_done").val();
+                // console.log(id);
 
-            //     $.ajax({
-            //         type: 'PUT',
-            //         url: '/X_SQUARE/public/schools/update/',
-            //         data: $('#edit_school_form').serialize(),
-            //       success: function (response){
-            //         // console.log(response);
-            //         $('#edit_school_modal').modal('hide');
-            //         toastr.success("School Updated");
-            //         // alert("Subject Updated.");
-            //         var table =  $('#schools_table').DataTable();
-            //         table.ajax.reload();
-            //       },
-            //       error: function (error){
-            //         // console.log(error);
-            //         $.each(error.responseJSON,function(key,value) {
-            //         toastr.error(value[0]);
-            //         // $("#update_subject_errors").append(`<li>`+value[0]+`</li>`);
-            //         });
+                $.ajax({
+                    type: 'PUT',
+                    url: 'categories/update/',
+                    data: $('#edit_cat_form').serialize(),
+                  success: function (response){
+                    // console.log(response);
+                    $('#edit_cat_modal').modal('hide');
+                    toastr.success("Category Updated");
+                    // alert("Subject Updated.");
+                    $("#cat_list").empty();
+                    get_cat();
+                  },
+                  error: function (error){
+                    // console.log(error);
+                    $.each(error.responseJSON,function(key,value) {
+                    toastr.error(value[0]);
+                    // $("#update_subject_errors").append(`<li>`+value[0]+`</li>`);
+                    });
 
-            //         // alert("Subject Not Updated.");
-            //       }
-            //     });
-            // });
+                    // alert("Subject Not Updated.");
+                  }
+                });
+            });
 
             // $(document).on("click", ".remove_sch", function(e){
             //   var id2 = $(this).val();
